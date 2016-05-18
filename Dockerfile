@@ -11,6 +11,7 @@ RUN apt-get -y --force-yes install vim\
  python-dev\
  python-flup\
  python-pip\
+ python-ldap\
  expect\
  git\
  memcached\
@@ -33,7 +34,10 @@ RUN git clone -b 0.9.15 --depth 1 https://github.com/graphite-project/graphite-w
 WORKDIR /usr/local/src/graphite-web
 RUN python ./setup.py install
 ADD conf/opt/graphite/conf/*.conf /opt/graphite/conf/
-ADD conf/opt/graphite/webapp/graphite/local_settings.py /opt/graphite/webapp/graphite/local_settings.py
+# instead of putting the local_settings.py file in its normal place
+# link it to a file in the persistent /opt/graphite/conf
+ADD conf/opt/graphite/webapp/graphite/local_settings.py /opt/graphite/conf/web-local_settings.py
+RUN ln -s /opt/graphite/conf/web-local_settings.py /opt/graphite/webapp/graphite/local_settings.py
 
 # install whisper
 RUN git clone -b 0.9.15 --depth 1 https://github.com/graphite-project/whisper.git /usr/local/src/whisper
