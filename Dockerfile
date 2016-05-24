@@ -12,6 +12,7 @@ RUN apt-get -y --force-yes install vim\
  python-flup\
  python-pip\
  python-ldap\
+ python-mysqldb\
  expect\
  git\
  memcached\
